@@ -1,0 +1,7 @@
+{
+  "name": "PantryMouse",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
