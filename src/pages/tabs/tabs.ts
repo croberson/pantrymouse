@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
-import { HomePage } from '../home/home';
+// Import pages for tabs here.  Good practice:  Alphabetical order.
+import { ListsPage } from '../lists/lists';
+import { PantryPage } from '../pantry/pantry';
 
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
-  tab2Root = AboutPage;
-  tab3Root = ContactPage;
+  tabRootPantry = PantryPage;
+  tabRootLists  = ListsPage;
+  // Add more tabs here
 
   constructor() {
 

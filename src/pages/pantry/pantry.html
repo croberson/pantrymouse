@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Pantry</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngFor="let category of categories">
+    <h2>{{category}}</h2>
+  </ion-card>
+</ion-content>
