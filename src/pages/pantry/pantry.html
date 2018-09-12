@@ -1,11 +1,28 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Pantry</ion-title>
+    <button ion-button icon-only (click)="addToPantry()">
+      <ion-icon name="barcode"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-card *ngFor="let category of categories">
-    <h2>{{category}}</h2>
-  </ion-card>
+  <ion-item-group *ngFor="let data of displayArray">
+    <ion-item-divider color="light">{{data.category}}</ion-item-divider>
+    <ion-item *ngFor="let item of data.items">{{item.name}} {{item.qty}}</ion-item>
+  </ion-item-group>
+
+
+  <!--<ion-card *ngFor="let data of displayArray">-->
+    <!--<ion-card-header>{{data.category}}</ion-card-header>-->
+    <!--<ion-card-content>-->
+      <!--<ion-list>-->
+        <!--<div ion-item *ngFor="let item of data.items">-->
+          <!--{{item.name}} {{item.qty}}-->
+        <!--</div><br/>-->
+      <!--</ion-list>-->
+    <!--</ion-card-content>-->
+  <!--</ion-card>-->
+
 </ion-content>

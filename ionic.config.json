@@ -3,5 +3,14 @@
   "integrations": {
     "cordova": {}
   },
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "proxies": [{
+      "path": "/api/greeting",
+      "proxyUrl": "http://localhost:8080/greeting"
+    },
+    {
+      "path": "/api/pantry",
+      "proxyUrl": "https://www.datakick.org/api/items"
+    }
+  ]
 }
