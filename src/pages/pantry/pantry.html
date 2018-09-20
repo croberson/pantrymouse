@@ -1,28 +1,31 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Pantry</ion-title>
-    <button ion-button icon-only (click)="addToPantry()">
-      <ion-icon name="barcode"></ion-icon>
-    </button>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>My Pantry</ion-title>
+        <button ion-button icon-only float-end (click)="addToPantry()">
+            <ion-icon name="add-circle"></ion-icon>
+        </button>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-item-group *ngFor="let data of displayArray">
-    <ion-item-divider color="light">{{data.category}}</ion-item-divider>
-    <ion-item *ngFor="let item of data.items">{{item.name}} {{item.qty}}</ion-item>
-  </ion-item-group>
+    <ion-item-group *ngFor="let data of displayArray">
+        <ion-item-divider color="light">{{data.category}}</ion-item-divider>
+        <ion-item *ngFor="let item of data.items">
+            {{item.name}}
+            <ion-badge item-end>{{item.qty}}</ion-badge>
+        </ion-item>
+    </ion-item-group>
 
 
-  <!--<ion-card *ngFor="let data of displayArray">-->
+    <!--<ion-card *ngFor="let data of displayArray">-->
     <!--<ion-card-header>{{data.category}}</ion-card-header>-->
     <!--<ion-card-content>-->
-      <!--<ion-list>-->
-        <!--<div ion-item *ngFor="let item of data.items">-->
-          <!--{{item.name}} {{item.qty}}-->
-        <!--</div><br/>-->
-      <!--</ion-list>-->
+    <!--<ion-list>-->
+    <!--<div ion-item *ngFor="let item of data.items">-->
+    <!--{{item.name}} {{item.qty}}-->
+    <!--</div><br/>-->
+    <!--</ion-list>-->
     <!--</ion-card-content>-->
-  <!--</ion-card>-->
+    <!--</ion-card>-->
 
 </ion-content>

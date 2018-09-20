@@ -1,9 +1,22 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Lists</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Adding to pantry...</ion-title>
+        <button ion-button icon-only (click)="scan()">
+            <ion-icon name="barcode"></ion-icon>
+        </button>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Lists page</h2>
+    <ion-list ion-grid>
+        <ion-row *ngFor="let data of barcodes">
+            <ion-col>
+                {{data.text}}
+            </ion-col>
+            <ion-col col-2>
+                <ion-icon name="add"></ion-icon>
+                <ion-icon name="remove"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-list>
 </ion-content>
