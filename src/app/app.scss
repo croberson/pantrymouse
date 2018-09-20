@@ -14,3 +14,19 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+
+// Main navigation
+ion-navbar {
+    .toolbar-content {
+        padding: 0 10px;
+    }
+    ion-title {
+        display: inline-block;
+
+        .toolbar-title {
+            padding: 0;
+        }
+    }    
+}
