@@ -11,6 +11,10 @@
     {
       "path": "/api/pantry",
       "proxyUrl": "https://www.datakick.org/api/items"
+    },
+    {
+      "path": "/api/get-item",
+      "proxyUrl": "https://api.barcodelookup.com/v2/products"
     }
   ]
 }

@@ -2,7 +2,8 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
-//import {RestProvider} from '../../providers/rest/rest';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
     selector: 'page-adding',
@@ -14,12 +15,16 @@ export class AddingPage {
         data: {barcode: any, name: string},
         qty: number, exists: boolean
     }[] = [];
+
     _items: {
         data: {barcode: any, name: string},
         qty: number, exists: boolean
     }[] = [];
 
+    itemsObservable: Observable<any>;
+
     constructor(public navCtrl: NavController,
+                public httpClient: HttpClient,
                 private barcodeScanner: BarcodeScanner,
                 private sqlite: SQLite) {
     }
@@ -35,7 +40,7 @@ export class AddingPage {
 
                 //Data is not in list.
                 //Check database.
-                var item: any = this.getItem(intBarcode, "db");
+                var item: any = this.getItem(barcodeData.text, "db");
 
                 if (item) {
                     //Data is in the database.  add it to the list with the name
@@ -49,7 +54,7 @@ export class AddingPage {
                     //         exists: true
                     //     });
                     // });
-                    if(item.name != undefined) {
+                    if (item.name != undefined) {
                         this._items[intBarcode] = {
                             data: {
                                 barcode: intBarcode,
@@ -119,10 +124,29 @@ export class AddingPage {
                 .catch(e => console.log(e));
         } else {
             //API call
-            return {text: "api bc data", type: "_", name: "api name data"};
+            //let headers: any = new HttpHeaders().set('Content-Type', 'text/plain').set('Access-Control-Allow-Origin', '*');
 
+            //this.itemsObservable = this.httpClient.get(`https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=n&key=5fi2f2uq2271jpt19bscxzi0ps3vih`, headers);
 
+            //this.itemsObservable.subscribe(data => {
+            //    console.log("from api: ", data);
+            //});
+
+            //dummy data
+            let inventory: any[] = [];
+            inventory[21000026753] = {text: "021000026753", type: "_", name: "Miracle Whip"};
+            inventory[72486002205] = {text: "072486002205", type: "_", name: "Jiffy Corn Muffin Mix"};
+            inventory[44300093003] = {text: "044300093003", type: "_", name: "Refried Beans"};
+            inventory[13300579022] = {text: "013300579022", type: "_", name: "Banana Nut Muffin Mix"};
+            inventory[51000015877] = {text: "051000015877", type: "_", name: "Tomato Bisque"};
+
+            return(inventory[barcode]);
         }
+    }
+
+    public add(list){
+        console.log(list);
+        //this.navCtrl.push(AddingPage);
     }
 
 }

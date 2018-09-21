@@ -46,21 +46,21 @@ export class PantryPage {
         // Get items
         this.displayArray = [
             {
-                "category": "snacks",
-                "items": [{"id": 0, "name": "Kara", "qty": 1},
-                    {"id": 1, "name": "meat snacks", "qty": 17},
-                    {"id": 2, "name": "sweet knees", "qty": 4}]
+                "category": "SNACKS",
+                "items": [{"id": 0, "name": "Twinkies", "qty": 1},
+                    {"id": 1, "name": "Ding Dongs", "qty": 17},
+                    {"id": 2, "name": "Oatmeal Pies", "qty": 4}]
             },
 
             {
-                "category": "condiments",
-                "items": [{"id": 3, "name": "magic sauce", "qty": 12},
-                    {"id": 4, "name": "mustard", "qty": 3},
-                    {"id": 5, "name": "catsup", "qty": 2}]
+                "category": "CONDIMENTS",
+                "items": [{"id": 3, "name": "BBQ Sauce", "qty": 12},
+                    {"id": 4, "name": "Mustard", "qty": 3},
+                    {"id": 5, "name": "Catsup", "qty": 2}]
             },
 
             {
-                "category": "canned veggies",
+                "category": "CANNED VEGGIES",
                 "items": [{"id": 6, "name": "sweet potatoes", "qty": 4},
                     {"id": 7, "name": "corn", "qty": 8},
                     {"id": 8, "name": "green beans", "qty": 7}]
