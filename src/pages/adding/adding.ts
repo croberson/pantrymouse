@@ -1,6 +1,8 @@
 import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
+//import {RestProvider} from '../../providers/rest/rest';
 
 @Component({
     selector: 'page-adding',
@@ -8,51 +10,120 @@ import {NavController} from 'ionic-angular';
 })
 export class AddingPage {
 
-    barcodes: {data: any, qty: number}[] = [];
+    items: {
+        data: {barcode: any, name: string},
+        qty: number, exists: boolean
+    }[] = [];
+    _items: {
+        data: {barcode: any, name: string},
+        qty: number, exists: boolean
+    }[] = [];
 
     constructor(public navCtrl: NavController,
-                private barcodeScanner: BarcodeScanner) {
-
+                private barcodeScanner: BarcodeScanner,
+                private sqlite: SQLite) {
     }
 
-    public scan() {
+    public async scan() {
         this.barcodeScanner.scan().then(barcodeData => {
-            console.log(barcodeData);
 
-            //First, check the list to see if barcode is already there.  If it is, then update the count.
-            //This means that we have multiples of the same item being added.
-            // if (this.barcodes[<number>barcodeData.text] !== undefined) {
-            //     var intBarcode = <number>barcodeData.text;
-            //     this.barcodes[intBarcode] = barcodeData;
-            // } else if (true) {
-            //     //If it is not already in the list, then check the db to get its data.
-            //     //Add its data to the list with a count of 1.
-            //
-            // } else if (true) {
-            //     //If it is not in the list and it doesn't exist in the db, get the data from an api call
-            //     //and add it to the list.
-            // }
-            //
-            // //Now, we should have an array of items to add (barcode, name, category, qty, update? for each).
-            // //We need to loop through and add/update to the database
-            //
-            //
-            // //this is how you push it good.  Use it wisely.
-            // this.barcodes.push(barcodeData);
+            //get an integer version of the barcode to be used for array indexing.
+            var intBarcode = Number(barcodeData.text);
+
+            //Check to see if barcode data is in the list already.
+            if (!this._items.hasOwnProperty(intBarcode)) {
+
+                //Data is not in list.
+                //Check database.
+                var item: any = this.getItem(intBarcode, "db");
+
+                if (item) {
+                    //Data is in the database.  add it to the list with the name
+                    // this.zone.run(() => {
+                    //     this.items.splice(intBarcode, 0, {
+                    //         data: {
+                    //             barcode: intBarcode,
+                    //             name: item.name
+                    //         },
+                    //         qty: 1,
+                    //         exists: true
+                    //     });
+                    // });
+                    if(item.name != undefined) {
+                        this._items[intBarcode] = {
+                            data: {
+                                barcode: intBarcode,
+                                name: item.name
+                            },
+                            qty: 1,
+                            exists: true
+                        }
+                    }
+                } else {
+
+                    //Data is not in the database.  Do an API call.
+                    var item: any = this.getItem(intBarcode, "api");
+                    // this.zone.run(() => {
+                    //     this.items.splice(intBarcode, 0, {
+                    //         data: {
+                    //             barcode: intBarcode,
+                    //             name: item.name,
+                    //         },
+                    //         qty: 1,
+                    //         exists: false
+                    //     });
+                    // });
+                    this._items[intBarcode] = {
+                        data: {
+                            barcode: intBarcode,
+                            name: item.name
+                        },
+                        qty: 1,
+                        exists: false
+                    }
+                }
+            } else {
+                //Data is already in the list. Increment it's qty by 1.
+                this._items[intBarcode].qty++;
+
+            }
+
+            console.log("_items", this._items);
+
+            for (var key in this._items) {
+                console.log("key: ", key);
+                if (this.items.indexOf(this._items[key]) == -1) {
+                    this.items.push(this._items[key]);
+                }
+            }
         }).catch(err => {
             console.log('Could not scan: ', err);
         });
     }
 
-    private containsObject(obj, list) {
-        var i;
-        for (i = 0; i < list.length; i++) {
-            if (list[i] === obj) {
-                return true;
-            }
-        }
+    private getItem(barcode: any, method: string) {
+        if (method == "db") {
+            //Database check
+            this.sqlite.create({
+                name: 'data.db',
+                location: 'default'
+            })
+                .then((db: SQLiteObject) => {
+                    db.executeSql(`SELECT * FROM pantry_items WHERE barcode = ${barcode}`, <any>{})
+                        .then((data) => {
+                            console.log(data.rows.item(0));
+                            return data.rows.item(0);
+                        })
+                        .catch(e => console.log(e));
+                })
+                .catch(e => console.log(e));
+        } else {
+            //API call
+            return {text: "api bc data", type: "_", name: "api name data"};
 
-        return false;
+
+        }
     }
 
 }
+

@@ -12,9 +12,12 @@
 
 <ion-content padding>
     <ion-list ion-grid>
-        <ion-row *ngFor="let data of barcodes">
+        <ion-row *ngFor="let item of items">
             <ion-col>
-                {{data.text}}
+                {{item.data.name}}
+            </ion-col>
+            <ion-col>
+                {{item.qty}}
             </ion-col>
             <ion-col col-2>
                 <ion-icon name="add"></ion-icon>
