@@ -13,8 +13,12 @@
       "proxyUrl": "https://www.datakick.org/api/items"
     },
     {
-      "path": "/api/get-item",
+      "path": "/api/barcode-lookup/get-item",
       "proxyUrl": "https://api.barcodelookup.com/v2/products"
+    },
+    {
+      "path": "/api/walmart/get-item",
+      "proxyUrl": "http://api.walmartlabs.com/v1/search"
     }
   ]
 }

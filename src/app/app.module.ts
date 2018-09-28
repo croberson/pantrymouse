@@ -5,6 +5,7 @@ import {MyApp} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 import {SQLite} from '@ionic-native/sqlite';
+import {Utilities} from '../lib/Utilities';
 
 //pages
 import {AddingPage} from '../pages/adding/adding';
@@ -42,6 +43,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
         SQLite,
         StatusBar,
         SplashScreen,
+        Utilities,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
