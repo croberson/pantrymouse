@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { PantryItem } from "../../lib/PantryItem";
 import { Utilities } from "../../lib/Utilities";
 import { ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+import { PantryPage } from "../pantry/pantry";
 
 
 @Component({
@@ -24,7 +26,8 @@ export class AddingPage {
               private barcodeScanner: BarcodeScanner,
               private sqlite: SQLite,
               private utilities: Utilities,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              public navCtrl: NavController) {
   }
 
   public async scan() {
@@ -154,6 +157,7 @@ export class AddingPage {
                 duration: 3000
               });
               toast.present();
+              this.navCtrl.push(PantryPage);
             }).catch(e => {
               console.log(e);
               const toast = this.toastCtrl.create({

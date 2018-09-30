@@ -18,4 +18,14 @@ export class PantryItem {
     this.qty = 1;
     this.thumbnail_image_url = response.data.common.thumbnailImageUrl;
   }
+
+  public createFromDb(data) {
+    this.wupc = data.wupc;
+    this.upca = data.upca;
+    this.ean13 = data.ean13;
+    this.walmart_product_id = data.productId;
+    this.name = data.name;
+    this.qty = data.qty;
+    this.thumbnail_image_url = data.thumbnailImageUrl;
+  }
 }

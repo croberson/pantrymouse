@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-//import { Observable } from 'rxjs/Observable';
-import {HttpClient} from '@angular/common/http';
 import {Item} from "../../lib/Item";
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 import {AddingPage} from "../adding/adding";
+import {ToastController} from 'ionic-angular';
+import {PantryItem} from "../../lib/PantryItem";
 
 @Component({
   selector: 'page-pantry',
@@ -13,21 +12,21 @@ import {AddingPage} from "../adding/adding";
 })
 export class PantryPage {
   // itemsObservable:    Observable<any>;
-  displayArray: {"category": string, "items": Item[]}[] = [];
+  displayItems: PantryItem[] = [];
+  test: string = "TEST";
 
   constructor(public navCtrl: NavController,
-              public httpClient: HttpClient,
-              private barcodeScanner: BarcodeScanner,
-              private sqlite: SQLite) {
+              private sqlite: SQLite,
+              private toastCtrl: ToastController) {
 
     this.sqlite.create({
       name: 'data.db',
       location: 'default'
     })
       .then((db: SQLiteObject) => {
-        db.executeSql(`DROP TABLE IF EXISTS pantry_items`, <any>{})
-          .then(() => console.log('Table `pantry_items` dropped.'))
-          .catch(e => console.log(e));
+        // db.executeSql(`DROP TABLE IF EXISTS pantry_items`, <any>{})
+        //   .then(() => console.log('Table `pantry_items` dropped.'))
+        //   .catch(e => console.log(e));
 
         db.executeSql(`CREATE TABLE IF NOT EXISTS pantry_items(
           id INT(10) PRIMARY KEY,
@@ -44,42 +43,45 @@ export class PantryPage {
       })
       .catch(e => console.log(e));
 
-    //this.itemsObservable = this.httpClient.get('/api/pantry');
+    this.getPantryItems();
+  }
 
-    // this.itemsObservable.subscribe(data => {
-    //   this.displayItemsArray.push(data);
-    //   console.log(data);
-    // });
+  private getPantryItems() {
+    //Database check
+    this.sqlite.create({
+      name: 'data.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+        db.executeSql(`SELECT * FROM pantry_items`, <any>{})
+          .then((data) => {
+            for (let i = 0; i < data.rows.length; i++) {
+              let item = data.rows.item(i);
+              //do something with it
+              console.log("this: ", this);
+              console.log("pantry_item: ", item);
+              console.log("----------");
 
-    // Get items
-    this.displayArray = [
-      {
-        "category": "SNACKS",
-        "items": [{"id": 0, "name": "Twinkies", "qty": 1},
-          {"id": 1, "name": "Ding Dongs", "qty": 17},
-          {"id": 2, "name": "Oatmeal Pies", "qty": 4}]
-      },
-
-      {
-        "category": "CONDIMENTS",
-        "items": [{"id": 3, "name": "BBQ Sauce", "qty": 12},
-          {"id": 4, "name": "Mustard", "qty": 3},
-          {"id": 5, "name": "Catsup", "qty": 2}]
-      },
-
-      {
-        "category": "CANNED VEGGIES",
-        "items": [{"id": 6, "name": "sweet potatoes", "qty": 4},
-          {"id": 7, "name": "corn", "qty": 8},
-          {"id": 8, "name": "green beans", "qty": 7}]
-      }
-    ];
+              //add items to display array
+              let pantryItem: PantryItem = new PantryItem();
+              pantryItem.createFromDb(item);
+              this.displayItems.push(pantryItem);
+            }
+          })
+          .catch(e => {
+            console.log(e);
+            const toast = this.toastCtrl.create({
+              message: e.message,
+              duration: 3000
+            });
+            toast.present();
+          });
+      })
   }
 
   public addToPantry() {
     //Open up the adding page
     this.navCtrl.push(AddingPage);
   }
-
 }
 

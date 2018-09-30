@@ -8,13 +8,20 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-item-group *ngFor="let data of displayArray">
-        <ion-item-divider color="light">{{data.category}}</ion-item-divider>
-        <ion-item *ngFor="let item of data.items">
-            {{item.name}}
-            <ion-badge item-end>{{item.qty}}</ion-badge>
-        </ion-item>
-    </ion-item-group>
+    <!--<ion-item-group *ngFor="let data of displayArray">-->
+        <!--<ion-item-divider color="light">{{data.category}}</ion-item-divider>-->
+        <!--<ion-item *ngFor="let item of data.items">-->
+            <!--{{item.name}}-->
+            <!--<ion-badge item-end>{{item.qty}}</ion-badge>-->
+        <!--</ion-item>-->
+    <!--</ion-item-group>-->
+
+  <ion-item-group>
+    <ion-item *ngFor="let item of displayItems">
+      {{item.name}}
+      <ion-badge item-end>{{item.qty}}</ion-badge>
+    </ion-item>
+  </ion-item-group>
 
 
     <!--<ion-card *ngFor="let data of displayArray">-->
