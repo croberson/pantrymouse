@@ -1,12 +1,10 @@
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
-import {Component, NgZone} from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
-import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
-import {Observable} from 'rxjs/Observable';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {HttpParams} from "@angular/common/http";
-import {PantryItem} from "../../lib/PantryItem";
-import {Utilities} from "../../lib/Utilities";
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { Component } from '@angular/core';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { HttpClient } from '@angular/common/http';
+import { PantryItem } from "../../lib/PantryItem";
+import { Utilities } from "../../lib/Utilities";
+import { ToastController } from 'ionic-angular';
 
 
 @Component({
@@ -21,18 +19,12 @@ export class AddingPage {
   //this will be used to "operate on"
   _items: {item: PantryItem, existsInDb: boolean}[] = [];
 
-  test: string = "the test of the century";
 
-  itemsObservable: Observable<any>;
-
-
-  constructor(public navCtrl: NavController,
-              public httpClient: HttpClient,
+  constructor(public httpClient: HttpClient,
               private barcodeScanner: BarcodeScanner,
               private sqlite: SQLite,
-              private platform: Platform,
               private utilities: Utilities,
-              private ngZone: NgZone) {
+              public toastCtrl: ToastController) {
   }
 
   public async scan() {
@@ -62,9 +54,7 @@ export class AddingPage {
 
           } else {
             //Data is not in the database.  Do an API call to get its data.
-            //var item: PantryItem = this.getItem(barcodeData.text, "api");
             this.getItem(barcodeData.text, "api");
-
           }
         }
 
@@ -113,20 +103,6 @@ export class AddingPage {
         .catch(e => console.log(e));
     } else {
       //API call
-      /*//barcode = '013300579022'; //test data
-      this.itemsObservable = this.httpClient.get(`https://search.mobile.walmart.com/v1/products-by-code/UPC/${barcode}?storeId=1`);
-      this.itemsObservable.subscribe(response => {
-        //Extract
-        let pantryItem: PantryItem = new PantryItem();
-        pantryItem.createFromWalmart(response.data);
-
-        //return pantryItem;
-
-        //TODO: get this out of the promise and do it right!
-        var intBarcode = Number(pantryItem.upca);
-        this._items[intBarcode] = { item: pantryItem, existsInDb: false };
-      });*/
-
       this.httpClient.get(`https://search.mobile.walmart.com/v1/products-by-code/UPC/${barcode}?storeId=1`).subscribe(response => {
         //extract the data we want
         let newItem: PantryItem = new PantryItem();
@@ -138,28 +114,63 @@ export class AddingPage {
       });
 
       return new PantryItem();
-
-      //dummy data
-      // let inventory: any[] = [];
-      // inventory[21000026753] = {text: "021000026753", type: "_", name: "Miracle Whip"};
-      // inventory[72486002205] = {text: "072486002205", type: "_", name: "Jiffy Corn Muffin Mix"};
-      // inventory[44300093003] = {text: "044300093003", type: "_", name: "Refried Beans"};
-      // inventory[13300579022] = {text: "013300579022", type: "_", name: "Banana Nut Muffin Mix"};
-      // inventory[51000015877] = {text: "051000015877", type: "_", name: "Tomato Bisque"};
-      //
-      // return(inventory[barcode]);
     }
     return new PantryItem();
   }
 
-  public save(data) {
-    console.log("adding these: ", data);
+  public save() {
+    console.log("adding these: ", this.items);
 
-    //Save the items to the database
+    for (var key in this.items) {
+      //Save the items to the database
+      if(!this.items[key].existsInDb) {
+        this.items[key].item.id = null; //make extra sure the id = null if the item was never in the db
+      }
+      let qry: string = `INSERT OR REPLACE INTO pantry_items 
+        (id, wupc, upca, ean13, walmart_product_id, name, qty, thumbnail_image_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      let values = [
+        this.items[key].item.id,
+        this.items[key].item.wupc,
+        this.items[key].item.upca,
+        this.items[key].item.ean13,
+        this.items[key].item.walmart_product_id,
+        this.items[key].item.name,
+        this.items[key].item.qty,
+        this.items[key].item.thumbnail_image_url
+      ];
 
-
-    //Reload the
-    //this.navCtrl.push(AddingPage);
+      //Database check
+      this.sqlite.create({
+        name: 'data.db',
+        location: 'default'
+      })
+        .then((db: SQLiteObject) => {
+          db.executeSql(qry, values)
+            .then(res => {
+              console.log(res);
+              const toast = this.toastCtrl.create({
+                message: 'Items saved to pantry.',
+                duration: 3000
+              });
+              toast.present();
+            }).catch(e => {
+              console.log(e);
+              const toast = this.toastCtrl.create({
+                message: e.message,
+                duration: 3000
+              });
+            toast.present();
+            });
+        }).catch(e => {
+        console.log(e);
+        const toast = this.toastCtrl.create({
+          message: e.message,
+          duration: 3000
+        });
+        toast.present();
+      });
+    }
   }
 
 }

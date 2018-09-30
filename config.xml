@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PantryMouse</name>
+<widget id="com.thequillandcode.pantrymouse" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Pantry Mouse</name>
     <description>A "what's in my pantry" app.</description>
     <author email="roberson_cw@yahoo.com" href="http://linkedin.com/in/robersoncw">Christopher Roberson</author>
     <content src="index.html" />
