@@ -10,6 +10,7 @@ export class PantryItem {
 
   //takes an object straight from a Walmart api call
   public createFromWalmart(response: any) {
+    this.id = null;
     this.wupc = response.data.common.productId.wupc;
     this.upca = response.data.common.productId.upca;
     this.ean13 = response.data.common.productId.ean13;
@@ -20,6 +21,7 @@ export class PantryItem {
   }
 
   public createFromDb(data) {
+    this.id = data.id;
     this.wupc = data.wupc;
     this.upca = data.upca;
     this.ean13 = data.ean13;

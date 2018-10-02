@@ -11,7 +11,6 @@ import {PantryItem} from "../../lib/PantryItem";
   templateUrl: 'pantry.html'
 })
 export class PantryPage {
-  // itemsObservable:    Observable<any>;
   displayItems: PantryItem[] = [];
   test: string = "TEST";
 
@@ -29,7 +28,7 @@ export class PantryPage {
         //   .catch(e => console.log(e));
 
         db.executeSql(`CREATE TABLE IF NOT EXISTS pantry_items(
-          id INT(10) PRIMARY KEY,
+          id INTEGER PRIMARY KEY,
           wupc VARCHAR(30),
           upca VARCHAR(30),
           ean13 VARCHAR(30),
@@ -53,16 +52,12 @@ export class PantryPage {
       location: 'default'
     })
       .then((db: SQLiteObject) => {
+        //Get them pantry items
         db.executeSql(`SELECT * FROM pantry_items`, <any>{})
-          .then((data) => {
-            for (let i = 0; i < data.rows.length; i++) {
-              let item = data.rows.item(i);
-              //do something with it
-              console.log("this: ", this);
-              console.log("pantry_item: ", item);
-              console.log("----------");
-
+          .then((response) => {
+            for (let i = 0; i < response.rows.length; i++) {
               //add items to display array
+              let item = response.rows.item(i);
               let pantryItem: PantryItem = new PantryItem();
               pantryItem.createFromDb(item);
               this.displayItems.push(pantryItem);
