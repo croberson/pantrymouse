@@ -12,7 +12,6 @@ import {PantryItem} from "../../lib/PantryItem";
 })
 export class PantryPage {
   displayItems: PantryItem[] = [];
-  test: string = "TEST";
 
   constructor(public navCtrl: NavController,
               private sqlite: SQLite,
@@ -43,6 +42,7 @@ export class PantryPage {
       .catch(e => console.log(e));
 
     this.getPantryItems();
+    console.log(this.displayItems);
   }
 
   private getPantryItems() {

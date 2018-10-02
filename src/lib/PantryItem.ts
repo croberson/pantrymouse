@@ -25,9 +25,9 @@ export class PantryItem {
     this.wupc = data.wupc;
     this.upca = data.upca;
     this.ean13 = data.ean13;
-    this.walmart_product_id = data.productId;
+    this.walmart_product_id = data.walmart_product_id;
     this.name = data.name;
     this.qty = data.qty;
-    this.thumbnail_image_url = data.thumbnailImageUrl;
+    this.thumbnail_image_url = data.thumbnail_image_url;
   }
 }

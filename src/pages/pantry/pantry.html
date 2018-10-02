@@ -16,12 +16,15 @@
         <!--</ion-item>-->
     <!--</ion-item-group>-->
 
-  <ion-item-group>
-    <ion-item *ngFor="let item of displayItems">
-      {{item.name}}
+  <ion-list>
+    <button ion-item *ngFor="let item of displayItems">
+      <ion-thumbnail item-start>
+        <img src="{{item.thumbnail_image_url}}"/>
+      </ion-thumbnail>
+      <h2>{{item.name}}</h2>
       <ion-badge item-end>{{item.qty}}</ion-badge>
-    </ion-item>
-  </ion-item-group>
+    </button>
+  </ion-list>
 
 
     <!--<ion-card *ngFor="let data of displayArray">-->
