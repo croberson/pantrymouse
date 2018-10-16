@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Adding to pantry...</ion-title>
+        <button ion-button icon-only float-end (click)="add()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+        <button ion-button icon-only float-end (click)="scan()">
+            <ion-icon name="barcode"></ion-icon>
+        </button>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list ion-grid>
+        <ion-row *ngFor="let item of items">
+            <ion-col>
+                {{item.item.name}}
+            </ion-col>
+            <ion-col>
+                {{item.item.qty}}
+            </ion-col>
+            <ion-col col-2>
+                <ion-icon name="add"></ion-icon>
+                <ion-icon name="remove"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+    <button ion-button (click)="save()">Add to Pantry</button>
+</ion-content>
