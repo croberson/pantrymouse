@@ -1,21 +1,22 @@
-import {NgModule, ErrorHandler} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
-import {MyApp} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
-import {SQLite} from '@ionic-native/sqlite';
-import {Utilities} from '../lib/Utilities';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { MyApp } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { SQLite } from '@ionic-native/sqlite';
+import { Utilities } from '../lib/Utilities';
 
 //pages
-import {AddingPage} from '../pages/adding/adding';
-import {ListsPage} from '../pages/lists/lists';
-import {PantryPage} from '../pages/pantry/pantry';
-import {TabsPage} from '../pages/tabs/tabs';
+import { AddingPage } from '../pages/adding/adding';
+import { ListsPage } from '../pages/lists/lists';
+import { PantryPage } from '../pages/pantry/pantry';
+import { TabsPage } from '../pages/tabs/tabs';
+import { ItemDetailsPage } from '../pages/pantry/item-details/item-details'
 
 //important elements
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import {SplashScreen} from '@ionic-native/splash-screen';
         PantryPage,
         AddingPage,
         ListsPage,
-        TabsPage
+        TabsPage,
+        ItemDetailsPage
     ],
     imports: [
         BrowserModule,
@@ -36,7 +38,8 @@ import {SplashScreen} from '@ionic-native/splash-screen';
         PantryPage,
         AddingPage,
         ListsPage,
-        TabsPage
+        TabsPage,
+        ItemDetailsPage
     ],
     providers: [
         BarcodeScanner,

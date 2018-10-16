@@ -1,3 +1,9 @@
-page-adding {
+page-item-details {
+	ion-input.input-sm {
+		display: inline;
 
+		.text-input {
+			width: 30px;
+		}
+	}
 }

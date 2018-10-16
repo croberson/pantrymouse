@@ -1,3 +1,17 @@
 page-pantry {
-    
+	button.item ion-badge {
+		&.empty {
+			background-color: #aa0000;
+		}
+		&.low {
+			background-color: #ffd500;
+		}
+		&.normal {
+			background-color: #488aff
+		}
+	}
+}
+
+.popover-md .popover-content {
+	bottom: auto !important;
 }
