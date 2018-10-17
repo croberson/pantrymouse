@@ -92,10 +92,13 @@ export class PantryPage {
         this.navCtrl.push(AddingPage);
     }
 
-    ionViewWillEnter() {
-        // refresh pantry list
+    public refreshPantryPage() {
         this.displayItems.length = 0;
         this.getPantryItems();
+    }
+
+    ionViewWillEnter() {
+        this.refreshPantryPage();
     }
 
     presentItemDetailsPopover(item) {
@@ -110,6 +113,13 @@ export class PantryPage {
                 }
             }
         };
+
+        popover.onDidDismiss((doRefresh: boolean = true) => {
+            if(doRefresh) {
+                this.refreshPantryPage();
+            }
+        });
+
         popover.present({ev: event});
     }
 }

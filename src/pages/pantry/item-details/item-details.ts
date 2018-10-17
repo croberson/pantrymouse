@@ -65,7 +65,7 @@ export class ItemDetailsPage {
                         toast.present();
                         this.item.badgeColorChange();
                         this.mainItem.copy(this.item);
-                        this.close();
+                        this.close(true);
 
                     })
                     .catch(e => {
@@ -116,7 +116,7 @@ export class ItemDetailsPage {
                                         duration: 5000
                                     });
                                     toast.present();
-
+                                    this.close(true);
                                 })
                                 .catch(e => {
                                     console.log(e);
@@ -165,7 +165,7 @@ export class ItemDetailsPage {
         }
     }
 
-    close() {
-        this.viewCtrl.dismiss();
+    close(doRefresh: boolean = true) {
+        this.viewCtrl.dismiss(doRefresh);
     }
 }
