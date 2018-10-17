@@ -25,13 +25,19 @@
 			</ion-col>
 		</ion-row>
 
+		<ion-row>
+			<ion-col>
+				<button ion-button color="danger" clear (click)="removeFromPantry()">Remove from pantry</button>
+			</ion-col>
+		</ion-row>
+
 
 		<ion-row>
 			<ion-col>
-				<button ion-button type="submit">Update</button>
+				<button ion-button outline type="button" (click)="close()">Cancel</button>
 			</ion-col>
 			<ion-col>
-				<button ion-button outline type="button" (click)="close()">Cancel</button>
+				<button ion-button type="submit">Update</button>
 			</ion-col>
 		</ion-row>
 
