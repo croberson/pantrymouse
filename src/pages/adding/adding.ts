@@ -4,7 +4,7 @@ import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 import {HttpClient} from '@angular/common/http';
 import {PantryItem} from "../../lib/models/pantry_item_model";
 import {ToastController} from 'ionic-angular';
-import {NavController} from 'ionic-angular';
+import {NavController, NavOptions, ViewController} from 'ionic-angular';
 import {PantryPage} from "../pantry/pantry";
 
 
@@ -25,7 +25,8 @@ export class AddingPage {
                 private barcodeScanner: BarcodeScanner,
                 private sqlite: SQLite,
                 public toastCtrl: ToastController,
-                public navCtrl: NavController) {
+                public navCtrl: NavController,
+                public viewCtrl: ViewController) {
     }
 
     public async scan() {
@@ -195,7 +196,8 @@ export class AddingPage {
             duration: 3000
         });
         toast.present();
-        this.navCtrl.push(PantryPage);
+
+        this.navCtrl.pop();
     }
 
 }
