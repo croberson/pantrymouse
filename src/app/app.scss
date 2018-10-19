@@ -22,6 +22,7 @@ ion-navbar {
     .toolbar-content {
         padding: 0 10px;
     }
+
     ion-title {
         display: inline-block;
 
@@ -29,4 +30,15 @@ ion-navbar {
             padding: 0;
         }
     }    
+}
+
+// Form elements
+ion-input {
+    &.input-sm {
+        display: inline;
+
+        .text-input {
+            width: 30px;
+        }
+    }
 }

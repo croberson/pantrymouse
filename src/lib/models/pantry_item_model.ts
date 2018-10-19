@@ -23,7 +23,7 @@ export class PantryItem{
     this.walmart_product_id = response.data.common.productId.productId;
     this.name = response.data.common.name;
     this.qty = 1;
-    this.threshold = 1;
+    this.threshold = 0;
     this.thumbnail_image_url = response.data.common.thumbnailImageUrl;
   }
 

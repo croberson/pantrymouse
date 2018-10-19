@@ -200,5 +200,13 @@ export class AddingPage {
         this.navCtrl.pop();
     }
 
+    changeNum(operation: string, item: any) {
+        if (operation == "+") {
+            item.qty++;
+        } else {
+            item.qty = item.qty > 0 ? item.qty - 1 : item.qty;
+        }
+    }
+
 }
 
