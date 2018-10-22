@@ -8,21 +8,25 @@
 		</ion-row>
 
 		<ion-row>
-			<ion-col>
+			<ion-col></ion-col>
+			<ion-col col-8>
 				<ion-label stacked>qty</ion-label>
-				<ion-icon name="remove" (click)="changeNum('-', 'qty')"></ion-icon>
+				<ion-icon class="icon-lg" name="remove" (click)="changeNum('-', 'qty')"></ion-icon>
 				<ion-input type="number" class="input-sm" [(ngModel)]="item.qty" name="qty"></ion-input>
-				<ion-icon name="add" (click)="changeNum('+', 'qty')"></ion-icon>
+				<ion-icon class="icon-lg" name="add" (click)="changeNum('+', 'qty')"></ion-icon>
 			</ion-col>
+			<ion-col></ion-col>
 		</ion-row>
 
 		<ion-row>
-			<ion-col>
+			<ion-col></ion-col>
+			<ion-col col-8>
 				<ion-label stacked>threshold</ion-label>
-				<ion-icon name="remove" (click)="changeNum('-', 'threshold')"></ion-icon>
+				<ion-icon class="icon-lg" name="remove" (click)="changeNum('-', 'threshold')"></ion-icon>
 				<ion-input type="number" class="input-sm" [(ngModel)]="item.threshold" name="threshold"></ion-input>
-				<ion-icon name="add" (click)="changeNum('+', 'threshold')"></ion-icon>
+				<ion-icon class="icon-lg" name="add" (click)="changeNum('+', 'threshold')"></ion-icon>
 			</ion-col>
+			<ion-col></ion-col>
 		</ion-row>
 
 		<ion-row>

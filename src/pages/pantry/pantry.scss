@@ -1,7 +1,7 @@
 page-pantry {
 	button.item ion-badge {
 		&.empty {
-			background-color: #aa0000;
+			background-color: color($colors, danger);
 		}
 		&.low {
 			background-color: #ffd500;

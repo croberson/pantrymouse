@@ -20,6 +20,8 @@ export class AddingPage {
     //this will be used to "operate on"
     _items: {item: PantryItem, existsInDb: boolean}[] = [];
 
+    displayCounts: number[] = [];
+
 
     constructor(public httpClient: HttpClient,
                 private barcodeScanner: BarcodeScanner,
@@ -41,6 +43,7 @@ export class AddingPage {
                 if (this._items.hasOwnProperty(intBarcode)) {
                     //Data is already in the list. Increment it's qty by 1.
                     this._items[intBarcode].item.qty += 1;
+                    this.incrementDisplayCount(intBarcode);
 
                 } else {
                     //Data is not in list.  Get from database or api.
@@ -57,6 +60,28 @@ export class AddingPage {
         }).catch(err => {
             console.log('Could not scan: ', err);
         });
+    }
+
+    incrementDisplayCount(barcode) {
+        debugger;
+        if(typeof this.displayCounts[barcode] === 'undefined') {
+            this.displayCounts[barcode] = 1;
+        } else {
+            this.displayCounts[barcode] += 1;
+        }
+    }
+
+    decrementDisplayCount(barcode) {
+        debugger;
+        if(typeof this.displayCounts[barcode] === 'undefined') {
+            this.displayCounts[barcode] = 0;
+        } else {
+            if(this.displayCounts[barcode] <= 0) {
+                this.displayCounts[barcode] = 0;
+            } else {
+                this.displayCounts[barcode] -= 1;
+            }
+        }
     }
 
     private addToList(item: PantryItem, existsInDb: boolean) {
@@ -89,6 +114,7 @@ export class AddingPage {
 
                             //Data is in the db.  Increment the count and add it to the list of stuff to be added.
                             pantryItem.qty++;
+                            this.incrementDisplayCount(barcode);
 
                             //add to the list and then update the display list
                             this.addToList(pantryItem, true);
@@ -102,6 +128,9 @@ export class AddingPage {
                                     //extract the data we want
                                     let newItem: PantryItem = new PantryItem();
                                     newItem.createFromWalmart(data);
+
+                                    //put 1 for the count
+                                    this.incrementDisplayCount(barcode);
 
                                     //add to the list and then update the display list
                                     this.addToList(newItem, false);
@@ -198,14 +227,6 @@ export class AddingPage {
         toast.present();
 
         this.navCtrl.pop();
-    }
-
-    changeNum(operation: string, item: any) {
-        if (operation == "+") {
-            item.qty++;
-        } else {
-            item.qty = item.qty > 0 ? item.qty - 1 : item.qty;
-        }
     }
 
 }
