@@ -63,7 +63,6 @@ export class AddingPage {
     }
 
     incrementDisplayCount(barcode) {
-        debugger;
         if(typeof this.displayCounts[barcode] === 'undefined') {
             this.displayCounts[barcode] = 1;
         } else {
@@ -72,7 +71,6 @@ export class AddingPage {
     }
 
     decrementDisplayCount(barcode) {
-        debugger;
         if(typeof this.displayCounts[barcode] === 'undefined') {
             this.displayCounts[barcode] = 0;
         } else {
@@ -150,6 +148,21 @@ export class AddingPage {
                     .catch(e => console.log(e));
             })
             .catch(e => console.log(e));
+    }
+
+    public remove(barcode) {
+        debugger;
+        if(barcode in this.items) {
+            delete this.items[barcode];
+        }
+
+        if(barcode in this._items) {
+            delete this._items[barcode];
+        }
+
+        if(barcode in this.displayCounts) {
+            delete this.displayCounts[barcode];
+        }
     }
 
     public save() {
