@@ -110,7 +110,6 @@ export class ItemDetailsPage {
                         }).then((db: SQLiteObject) => {
                             db.executeSql(qry, values)
                                 .then(res => {
-                                    console.log("1---");
                                     const toast = this.toastCtrl.create({
                                         message: 'Item removed from pantry.',
                                         duration: 5000
@@ -126,9 +125,7 @@ export class ItemDetailsPage {
                                     });
                                     toast.present();
                                 });
-                            console.log("2---");
                             }).then(() => {
-                            console.log("3---");
                         }).catch(e => {
                             console.log(e);
                             const toast = this.toastCtrl.create({

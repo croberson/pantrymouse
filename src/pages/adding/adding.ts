@@ -1,5 +1,5 @@
 import {BarcodeScanner} from '@ionic-native/barcode-scanner';
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 import {HttpClient} from '@angular/common/http';
 import {PantryItem} from "../../lib/models/pantry_item_model";
@@ -15,12 +15,12 @@ import {PantryPage} from "../pantry/pantry";
 export class AddingPage {
 
     //this will be displayed on the page
-    items: {item: PantryItem, existsInDb: boolean}[] = [];
+    public items: {item: PantryItem, existsInDb: boolean}[] = [];
 
     //this will be used to "operate on"
-    _items: {item: PantryItem, existsInDb: boolean}[] = [];
+    public _items: {item: PantryItem, existsInDb: boolean}[] = [];
 
-    displayCounts: number[] = [];
+    public displayCounts: number[] = [];
 
 
     constructor(public httpClient: HttpClient,
@@ -63,7 +63,7 @@ export class AddingPage {
     }
 
     incrementDisplayCount(barcode) {
-        if(typeof this.displayCounts[barcode] === 'undefined') {
+        if (typeof this.displayCounts[barcode] === 'undefined') {
             this.displayCounts[barcode] = 1;
         } else {
             this.displayCounts[barcode] += 1;
@@ -71,10 +71,10 @@ export class AddingPage {
     }
 
     decrementDisplayCount(barcode) {
-        if(typeof this.displayCounts[barcode] === 'undefined') {
+        if (typeof this.displayCounts[barcode] === 'undefined') {
             this.displayCounts[barcode] = 0;
         } else {
-            if(this.displayCounts[barcode] <= 0) {
+            if (this.displayCounts[barcode] <= 0) {
                 this.displayCounts[barcode] = 0;
             } else {
                 this.displayCounts[barcode] -= 1;
@@ -150,17 +150,17 @@ export class AddingPage {
             .catch(e => console.log(e));
     }
 
-    public remove(barcode) {
-        debugger;
-        if(barcode in this.items) {
-            delete this.items[barcode];
-        }
-
-        if(barcode in this._items) {
+    public removeItem(barcode) {
+        if (barcode in this._items) {
+            //remove from display array
             delete this._items[barcode];
+
+            //remove from processing array
+            this.items = [];
+            this.updateDisplayList();
         }
 
-        if(barcode in this.displayCounts) {
+        if (barcode in this.displayCounts) {
             delete this.displayCounts[barcode];
         }
     }
